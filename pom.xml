@@ -1,0 +1,146 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>net.zyclonite.sonar</groupId>
+  <artifactId>slack-notifier</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>sonar-plugin</packaging>
+
+  <name>Slack Notifier Plugin</name>
+  <description>Sends notifications to Slack</description>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <sonar.pluginName>Slack Notifier</sonar.pluginName>
+    <project.targetJdk>11</project.targetJdk>
+    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
+
+    <argLine />
+    <sonar.version>9.5.0.56709</sonar.version>
+    <sonar-api.version>9.6.1.114</sonar-api.version>
+  </properties>
+
+  <scm>
+    <connection>scm:git:git@github.com:zyclonite/sonar-slack-notifier-plugin.git</connection>
+    <url>scm:git:git@github.com:zyclonite/sonar-slack-notifier-plugin.git</url>
+    <developerConnection>scm:git:git@github.com:zyclonite/sonar-slack-notifier-plugin.git</developerConnection>
+    <tag>HEAD</tag>
+  </scm>
+  
+
+  <dependencies>
+    <dependency>
+      <groupId>org.sonarsource.api.plugin</groupId>
+      <artifactId>sonar-plugin-api</artifactId>
+      <version>${sonar-api.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.github.seratch</groupId>
+      <artifactId>jslack</artifactId>
+      <version>3.4.2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.13.2</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <version>3.23.1</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-all</artifactId>
+      <version>1.10.19</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.sonarsource.sonarqube</groupId>
+      <artifactId>sonar-core</artifactId>
+      <version>${sonar.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <version>3.1.0</version>
+        <executions>
+          <execution>
+            <id>enforce-versions</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <requireMavenVersion>
+                  <version>[3.8,)</version>
+                </requireMavenVersion>
+                <requireJavaVersion>
+                  <version>[${project.targetJdk},)</version>
+                </requireJavaVersion>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.22.2</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <version>2.22.2</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>integration-test</goal>
+              <goal>verify</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.8.8</version>
+      </plugin>
+      <plugin>
+        <groupId>org.sonarsource.scanner.maven</groupId>
+        <artifactId>sonar-maven-plugin</artifactId>
+        <version>3.9.1.2184</version>
+      </plugin>
+      <plugin>
+        <groupId>org.sonarsource.sonar-packaging-maven-plugin</groupId>
+        <artifactId>sonar-packaging-maven-plugin</artifactId>
+        <version>1.18.0.372</version>
+        <extensions>true</extensions>
+        <configuration>
+          <jarName>slack-notifier-${project.version}</jarName>
+          <pluginKey>slack-notifier</pluginKey>
+          <pluginClass>net.zyclonite.sonar.slacknotifier.SlackNotifierPlugin</pluginClass>
+          <pluginName>Slack Notifier</pluginName>
+          <pluginDescription>Sends notifications to Slack</pluginDescription>
+          <sonarQubeMinVersion>9.5</sonarQubeMinVersion>
+          <pluginUrl>https://github.com/zyclonite/sonar-slack-notifier-plugin</pluginUrl>
+          <pluginIssueTrackerUrl>https://github.com/zyclonite/sonar-slack-notifier-plugin/issues</pluginIssueTrackerUrl>
+          <pluginSourcesUrl>https://github.com/zyclonite/sonar-slack-notifier-plugin</pluginSourcesUrl>
+          <pluginOrganizationName>Lukas Prettenthaler</pluginOrganizationName>
+          <pluginOrganizationUrl>https://github.com/zyclonite</pluginOrganizationUrl>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
