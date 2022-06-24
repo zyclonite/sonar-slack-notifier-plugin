@@ -98,7 +98,7 @@ public class ProjectAnalysisPayloadBuilderTest {
             .flatExtracting(Attachment::getFields)
             .hasSize(2)
             .extracting(Field::getTitle)
-            .contains("Functions: ERROR", "Violations: ERROR");
+            .contains("Functions: ERROR", "Issues: ERROR");
     }
 
     @Test
