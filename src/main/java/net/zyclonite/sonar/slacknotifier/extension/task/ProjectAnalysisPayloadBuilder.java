@@ -18,6 +18,7 @@ public class ProjectAnalysisPayloadBuilder {
     private static final Logger LOG = Loggers.get(ProjectAnalysisPayloadBuilder.class);
     private static final Map<String, String> METRIC_MAPPINGS = Map.of(
         "new_reliability_rating", "Reliability Rating on New Code",
+        "new_maintainability_rating", "Maintainability Rating on New Code",
         "new_security_hotspots_reviewed", "Security Hotspots Reviewed on New Code",
         "new_sqale_debt_ratio", "Technical Debt Ratio on New Code",
         "new_vulnerabilities", "New Vulnerabilities",
