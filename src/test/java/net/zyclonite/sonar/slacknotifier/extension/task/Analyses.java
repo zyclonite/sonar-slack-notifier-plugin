@@ -5,12 +5,12 @@ import org.sonar.api.measures.CoreMetrics;
 
 import java.util.Date;
 
-import static org.sonar.api.ce.posttask.PostProjectAnalysisTaskTester.*;
+import static org.sonar.api.testfixtures.posttask.PostProjectAnalysisTaskTester.*;
 
 public class Analyses {
     public static final String PROJECT_KEY = "project:key";
     private static final String PROJECT_NAME = "Project Name";
-    private static final Project PROJECT = PostProjectAnalysisTaskTester.newProjectBuilder()
+    private static final Project PROJECT = newProjectBuilder()
         .setUuid("uuid")
         .setKey(PROJECT_KEY)
         .setName(PROJECT_NAME)
@@ -21,7 +21,7 @@ public class Analyses {
         .build();
 
     public static void simple(PostProjectAnalysisTask analysisTask) {
-        PostProjectAnalysisTaskTester.of(analysisTask)
+        of(analysisTask)
             .withCeTask(CE_TASK)
             .withProject(PROJECT)
             .withScannerContext(newScannerContextBuilder()
@@ -37,16 +37,15 @@ public class Analyses {
                             .setMetricKey("metric key")
                             .setOperator(QualityGate.Operator.GREATER_THAN)
                             .setErrorThreshold("12")
-                            .setOnLeakPeriod(true)
                             .build(QualityGate.EvaluationStatus.OK, "value"))
                     .build())
             .execute();
     }
 
     public static void simpleDifferentKey(PostProjectAnalysisTask analysisTask) {
-        PostProjectAnalysisTaskTester.of(analysisTask)
+        of(analysisTask)
             .withCeTask(CE_TASK)
-            .withProject(PostProjectAnalysisTaskTester.newProjectBuilder()
+            .withProject(newProjectBuilder()
                 .setUuid("uuid")
                 .setKey("different:key")
                 .setName(PROJECT_NAME)
@@ -64,14 +63,13 @@ public class Analyses {
                             .setMetricKey("metric key")
                             .setOperator(QualityGate.Operator.GREATER_THAN)
                             .setErrorThreshold("12")
-                            .setOnLeakPeriod(true)
                             .build(QualityGate.EvaluationStatus.OK, "value"))
                     .build())
             .execute();
     }
 
     public static void qualityGateOk4Conditions(PostProjectAnalysisTask analysisTask) {
-        PostProjectAnalysisTaskTester.of(analysisTask)
+        of(analysisTask)
             .withCeTask(CE_TASK)
             .withProject(PROJECT)
             .at(new Date())
@@ -84,32 +82,28 @@ public class Analyses {
                         .setMetricKey(CoreMetrics.NEW_VULNERABILITIES_KEY)
                         .setOperator(QualityGate.Operator.GREATER_THAN)
                         .setErrorThreshold("0")
-                        .setOnLeakPeriod(true)
                         .build(QualityGate.EvaluationStatus.OK, "0"))
                     .add(newConditionBuilder()
                         .setMetricKey(CoreMetrics.NEW_BUGS_KEY)
                         .setOperator(QualityGate.Operator.GREATER_THAN)
                         .setErrorThreshold("0")
-                        .setOnLeakPeriod(true)
                         .build(QualityGate.EvaluationStatus.ERROR, "1"))
                     .add(newConditionBuilder()
                         .setMetricKey(CoreMetrics.NEW_SQALE_DEBT_RATIO_KEY)
                         .setOperator(QualityGate.Operator.GREATER_THAN)
                         .setErrorThreshold("10.0")
-                        .setOnLeakPeriod(true)
                         .build(QualityGate.EvaluationStatus.OK, "0.00666667"))
                     .add(newConditionBuilder()
                         .setMetricKey(CoreMetrics.NEW_COVERAGE_KEY)
                         .setOperator(QualityGate.Operator.LESS_THAN)
                         .setErrorThreshold("80.0")
-                        .setOnLeakPeriod(true)
                         .build(QualityGate.EvaluationStatus.ERROR, "75.509999999999"))
                     .build())
             .execute();
     }
 
     public static void qualityGateError2Of3ConditionsFailed(PostProjectAnalysisTask analysisTask) {
-        PostProjectAnalysisTaskTester.of(analysisTask)
+        of(analysisTask)
             .withCeTask(CE_TASK)
             .withProject(PROJECT)
             .at(new Date())
@@ -139,7 +133,7 @@ public class Analyses {
 
 
     public static void noQualityGate(PostProjectAnalysisTask analysisTask) {
-        PostProjectAnalysisTaskTester.of(analysisTask)
+        of(analysisTask)
             .withCeTask(CE_TASK)
             .withProject(PROJECT)
             .at(new Date())

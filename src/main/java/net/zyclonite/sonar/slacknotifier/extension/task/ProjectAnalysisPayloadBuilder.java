@@ -16,17 +16,18 @@ import java.util.stream.Collectors;
 
 public class ProjectAnalysisPayloadBuilder {
     private static final Logger LOG = Loggers.get(ProjectAnalysisPayloadBuilder.class);
-    private static final Map<String, String> METRIC_MAPPINGS = Map.of(
-        "new_reliability_rating", "Reliability Rating on New Code",
-        "new_maintainability_rating", "Maintainability Rating on New Code",
-        "new_security_hotspots_reviewed", "Security Hotspots Reviewed on New Code",
-        "new_sqale_debt_ratio", "Technical Debt Ratio on New Code",
-        "new_vulnerabilities", "New Vulnerabilities",
-        "new_bugs", "New Bugs",
-        "new_coverage", "Coverage on New Code",
-        "new_duplicated_lines_density", "Duplicated Lines (%) on New Code",
-        "functions", "Functions",
-        "violations", "Issues"
+    private static final Map<String, String> METRIC_MAPPINGS = Map.ofEntries(
+        Map.entry("new_reliability_rating", "Reliability Rating on New Code"),
+        Map.entry("new_maintainability_rating", "Maintainability Rating on New Code"),
+        Map.entry("new_security_hotspots_reviewed", "Security Hotspots Reviewed on New Code"),
+        Map.entry("new_sqale_debt_ratio", "Technical Debt Ratio on New Code"),
+        Map.entry("new_vulnerabilities", "New Vulnerabilities"),
+        Map.entry("new_bugs", "New Bugs"),
+        Map.entry("new_coverage", "Coverage on New Code"),
+        Map.entry("new_duplicated_lines_density", "Duplicated Lines (%) on New Code"),
+        Map.entry("new_violations", "New Issues"),
+        Map.entry("functions", "Functions"),
+        Map.entry("violations", "Issues")
     );
 
     private static final String SLACK_GOOD_COLOUR = "good";
